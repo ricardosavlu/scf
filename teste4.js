@@ -1,7 +1,8 @@
 import { fakeUsers, Role } from "./fakeData.js";
+import { validateUpdateUserInput } from "./validation.js";
 
 export const updateUser = async (req, res) => {
-    const error = validateUserCreateInput(req.body)
+    const error = validateUpdateUserInput(req.body)
 
     if (error) {
         res.status(400)
@@ -18,7 +19,7 @@ export const updateUser = async (req, res) => {
     }
 
     if (req.user.role !== Role.Admin) {
-        if(req.user.id !== id) return res.sendStatus(403) // Only admins can change other people's data
+        if (req.user.id !== id) return res.sendStatus(403) // Only admins can change other people's data
         delete rest.role // Only admins can change roles
     }
 
