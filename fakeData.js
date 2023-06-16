@@ -4,20 +4,25 @@ class FakeUsers {
         {
             id: 1,
             name: "João Oliveira",
-            job: "Desenvolvedor"
+            job: "Desenvolvedor",
+            readCount: 0,
         }
     ]
 
     async findAll() {
-        return this.data
+        this.data.forEach(u => u.readCount++)
+        return this.data.map(toPublic)
     }
 
     async findById(id) {
-        return this.data.find(u => u.id === id) ?? null
+        const user = this.data.find(u => u.id === id)
+        if (!user) return null
+        user.readCount++
+        return toPublic(user)
     }
 
     async findByName(name) {
-        return this.data.find(u => u.name === name)
+        return toPublic(this.data.find(u => u.name === name))
     }
 
     async createUser(user) {
@@ -25,7 +30,7 @@ class FakeUsers {
         const newId = highestId + 1
         const newUser = { ...user, id: newId }
         this.data.push(newUser)
-        return newUser
+        return toPublic(newUser)
     }
 
     async deleteById(id) {
@@ -34,9 +39,24 @@ class FakeUsers {
 
     async updateById(id, data) {
         const user = this.data.find(u => u.id === id)
-        if(data.name) user.name = data.name
-        if(data.job) user.job = data.job
+        if (data.name) user.name = data.name
+        if (data.job) user.job = data.job
+        return toPublic(user)
     }
+
+    async getReadCountByName(name) {
+        const user = this.data.find(u => u.name === name)
+        if (!user) return null
+        return user.readCount
+    }
+}
+
+/**
+ * Converts data stored on the database to public facing data
+ */
+function toPublic(user) {
+    const { id, name, job } = user
+    return { id, name, job }
 }
 
 export const fakeUsers = new FakeUsers()

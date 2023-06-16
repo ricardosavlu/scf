@@ -2,7 +2,7 @@ import { getUser, getUsers, } from "./teste1.js";
 import { createUser } from "./teste2.js";
 import { deleteUser } from "./teste3.js";
 import { updateUser } from "./teste4.js";
-// import { teste5 } from "./teste5";
+import { getUserReadCount } from "./teste5.js";
 import express from 'express';
 
 const PORT = 3000;
@@ -26,7 +26,7 @@ app.get("/users", getUsers);
 app.post("/users", createUser)
 app.delete("/users", deleteUser)
 app.put("/users", updateUser)
-// app.get("/users/access", teste5);
+app.get("/users/access", getUserReadCount);
 
 
 app.listen(PORT, function () {

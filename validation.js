@@ -14,3 +14,7 @@ export function validateDeleteUserInput(input) {
 export function validateUpdateUserInput(input) {
     if(!input.id) return ID_IS_REQUIRED
 }
+
+export function validateGetReadCountInput(input) {
+    if(!input.name) return NAME_IS_REQUIRED
+}

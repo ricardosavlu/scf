@@ -1,9 +1,24 @@
+import { fakeUsers } from "./fakeData.js";
+import { validateGetReadCountInput } from "./validation";
 
+export const getUserReadCount =async  (req, res) => {
+    const error = validateGetReadCountInput(req.body)
 
-module.exports = function(req, res){
-    
-    var name =  req.query.name;
+    if (error) {
+        res.status(400)
+        return res.send(error)
+    }
 
-    res.send("Usuário " +  name  + "  foi lido 0 vezes.");
+    const { name } = req.body
 
+    const userExists = await fakeUsers.findByName(name)
+
+    if (!userExists) {
+        res.status(404)
+        return res.send('user not found')
+    }
+
+    const readCount = await fakeUsers.getReadCountByName(name)
+
+    res.send(`User ${name} has been read ${readCount} times.`);
 };
