@@ -1,17 +1,17 @@
-var data =  require("./fakeData");
+import { fakeUsers } from './fakeData.js'
+import { validateUserCreateInput } from './validation.js';
 
-module.exports = function(req, res){
-  
-    var name =  req.body.name;
-    var jov =  req.body.job;
-    
-    var newUser = {
-        name: name,
-        job: job,
+export const createUser = async (req, res) => {
+    const error = validateUserCreateInput(req.body)
+
+    if (error) {
+        res.status(400)
+        return res.send(error)
     }
 
-    data.push(newUser)
-    
-    res.send(newUser);
+    const { name, job } = req.body;
 
+    const newUser = await fakeUsers.createUser({ name, job })
+
+    res.send(newUser);
 };

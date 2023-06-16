@@ -1,6 +1,6 @@
 
 class FakeUsers {
-    data =  [
+    data = [
         {
             id: 1,
             name: "João Oliveira",
@@ -18,6 +18,14 @@ class FakeUsers {
 
     async findByName(name) {
         return this.data.find(u => u.name === name)
+    }
+
+    async createUser(user) {
+        const highestId = this.data.reduce((highest, user) => highest < user.id ? user.id : highest, 0)
+        const newId = highestId + 1
+        const newUser = { ...user, id: newId }
+        this.data.push(newUser)
+        return newUser
     }
 }
 
