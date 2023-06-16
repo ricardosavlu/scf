@@ -1,15 +1,15 @@
 import { fakeUsers } from "./fakeData.js";
-import { validateGetReadCountInput } from "./validation";
+import { validateGetReadCountInput } from "./validation.js";
 
-export const getUserReadCount =async  (req, res) => {
-    const error = validateGetReadCountInput(req.body)
+export const getUserReadCount = async (req, res) => {
+    const error = validateGetReadCountInput(req.query)
 
     if (error) {
         res.status(400)
         return res.send(error)
     }
 
-    const { name } = req.body
+    const { name } = req.query
 
     const userExists = await fakeUsers.findByName(name)
 
