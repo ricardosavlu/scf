@@ -1,13 +1,23 @@
-var data =  require("./fakeData");
+import { fakeUsers } from "./fakeData.js";
 
-module.exports =  function(req, res) {
-  
-    var id =  req.query.id;
+export const updateUser = async (req, res) => {
+    const error = validateUserCreateInput(req.body)
 
-    const reg = data.find(d => id == id);
-    reg.name = req.body.name;
-    reg.job = req.body.job;
+    if (error) {
+        res.status(400)
+        return res.send(error)
+    }
 
-    res.send(reg);
+    const { id, ...rest } = req.body
 
+    const userExists = await fakeUsers.findById(id)
+
+    if (!userExists) {
+        res.status(404)
+        return res.send('user not found')
+    }
+
+    const updatedUser = await fakeUsers.updateById(id, rest)
+    
+    res.send(updatedUser);
 };

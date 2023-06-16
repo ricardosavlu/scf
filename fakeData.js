@@ -31,6 +31,12 @@ class FakeUsers {
     async deleteById(id) {
         this.data = this.data.filter(u => u.id !== id)
     }
+
+    async updateById(id, data) {
+        const user = this.data.find(u => u.id === id)
+        if(data.name) user.name = data.name
+        if(data.job) user.job = data.job
+    }
 }
 
 export const fakeUsers = new FakeUsers()

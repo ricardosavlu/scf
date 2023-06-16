@@ -1,7 +1,7 @@
 import { getUser, getUsers, } from "./teste1.js";
 import { createUser } from "./teste2.js";
 import { deleteUser } from "./teste3.js";
-// import { teste4 } from "./teste4";
+import { updateUser } from "./teste4.js";
 // import { teste5 } from "./teste5";
 import express from 'express';
 
@@ -25,7 +25,7 @@ app.get("/user", getUser);
 app.get("/users", getUsers);
 app.post("/users", createUser)
 app.delete("/users", deleteUser)
-// app.put("/users", teste4)
+app.put("/users", updateUser)
 // app.get("/users/access", teste5);
 
 
