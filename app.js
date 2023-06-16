@@ -27,10 +27,10 @@ const { Admin, Member } = Role
 
 app.get("/user", loggedIn, minRole(Member), getUser);
 app.get("/users", loggedIn, minRole(Member), getUsers);
-app.post("/users", loggedIn, minRole(Admin), createUser)
-app.delete("/users", loggedIn, minRole(Admin), deleteUser)
-app.put("/users", loggedIn, minRole(Member), updateUser)
-app.get("/users/access", loggedIn, minRole(Member), getUserReadCount);
+app.post("/users", loggedIn, minRole(Admin), createUser);
+app.delete("/users", loggedIn, minRole(Admin), deleteUser);
+app.put("/users", loggedIn, minRole(Member), updateUser);
+app.get("/users/access", loggedIn, minRole(Admin), getUserReadCount);
 
 
 app.listen(PORT, function () {
