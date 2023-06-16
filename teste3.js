@@ -17,6 +17,10 @@ export const deleteUser = async (req, res) => {
         return res.send('user not found')
     }
 
+    if (req.user.role !== Role.Admin) {
+        if(req.user.id !== id) return res.sendStatus(403) // Members can only delete themselves
+    }
+
     await fakeUsers.deleteById(existingUser.id)
 
     res.send("user deleted successfully");

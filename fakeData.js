@@ -1,3 +1,7 @@
+export const Role = {
+    Admin: 'admin',
+    Member: 'member'
+ }
 
 class FakeUsers {
     data = [
@@ -6,6 +10,7 @@ class FakeUsers {
             name: "João Oliveira",
             job: "Desenvolvedor",
             readCount: 0,
+            role: Role.Admin,
         }
     ]
 
@@ -41,6 +46,7 @@ class FakeUsers {
         const user = this.data.find(u => u.id === id)
         if (data.name) user.name = data.name
         if (data.job) user.job = data.job
+        if (data.role) user.role = data.role
         return toPublic(user)
     }
 
@@ -55,8 +61,8 @@ class FakeUsers {
  * Converts data stored on the database to public facing data
  */
 function toPublic(user) {
-    const { id, name, job } = user
-    return { id, name, job }
+    const { id, name, job, role } = user
+    return { id, name, job, role }
 }
 
 export const fakeUsers = new FakeUsers()

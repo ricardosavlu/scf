@@ -9,7 +9,7 @@ export const createUser = async (req, res) => {
         return res.send(error)
     }
 
-    const { name, job } = req.body;
+    const { name, job, role } = req.body;
 
     const nameIsTaken = await fakeUsers.findByName(name)
 
@@ -19,7 +19,7 @@ export const createUser = async (req, res) => {
         res.send(`name "${name}" is already in use`)
     }
 
-    const newUser = await fakeUsers.createUser({ name, job })
+    const newUser = await fakeUsers.createUser({ name, job, role })
 
     res.send(newUser);
 };

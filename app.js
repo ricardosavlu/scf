@@ -3,7 +3,9 @@ import { createUser } from "./teste2.js";
 import { deleteUser } from "./teste3.js";
 import { updateUser } from "./teste4.js";
 import { getUserReadCount } from "./teste5.js";
+import { loggedIn, minRole } from './middlewares.js'
 import express from 'express';
+import { Role } from "./fakeData.js";
 
 const PORT = 3000;
 
@@ -21,12 +23,14 @@ app.get('/', function (req, res) {
   `);
 });
 
-app.get("/user", getUser);
-app.get("/users", getUsers);
-app.post("/users", createUser)
-app.delete("/users", deleteUser)
-app.put("/users", updateUser)
-app.get("/users/access", getUserReadCount);
+const { Admin, Member } = Role
+
+app.get("/user", loggedIn, minRole(Member), getUser);
+app.get("/users", loggedIn, minRole(Member), getUsers);
+app.post("/users", loggedIn, minRole(Admin), createUser)
+app.delete("/users", loggedIn, minRole(Admin), deleteUser)
+app.put("/users", loggedIn, minRole(Member), updateUser)
+app.get("/users/access", loggedIn, minRole(Member), getUserReadCount);
 
 
 app.listen(PORT, function () {
