@@ -1,4 +1,4 @@
-import { fakeUsers } from './fakeData.js'
+import { Role, fakeUsers } from './fakeData.js'
 import { validateUserCreateInput } from './validation.js';
 
 export const createUser = async (req, res) => {
@@ -9,7 +9,7 @@ export const createUser = async (req, res) => {
         return res.send(error)
     }
 
-    const { name, job, role } = req.body;
+    const { name, job, role: inputRole } = req.body;
 
     const nameIsTaken = await fakeUsers.findByName(name)
 
@@ -18,6 +18,8 @@ export const createUser = async (req, res) => {
         res.status(409)
         res.send(`name "${name}" is already in use`)
     }
+
+    const role = req.user.role === 'Admin' ? inputRole : Role.Member // Only admins can choose roles
 
     const newUser = await fakeUsers.createUser({ name, job, role })
 
