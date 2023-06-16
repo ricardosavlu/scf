@@ -1,6 +1,6 @@
 import { getUser, getUsers, } from "./teste1.js";
 import { createUser } from "./teste2.js";
-// import { teste3 } from "./teste3";
+import { deleteUser } from "./teste3.js";
 // import { teste4 } from "./teste4";
 // import { teste5 } from "./teste5";
 import express from 'express';
@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 app.get("/user", getUser);
 app.get("/users", getUsers);
 app.post("/users", createUser)
-// app.delete("/users", teste3)
+app.delete("/users", deleteUser)
 // app.put("/users", teste4)
 // app.get("/users/access", teste5);
 

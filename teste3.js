@@ -1,15 +1,23 @@
-var data =  require("./fakeData");
+import { fakeUsers } from "./fakeData.js";
 
-module.exports = function(req, res) {
-  
-    var name =  req.query.name;
+export const deleteUser = async (req, res) => {
+    const error = validateDeleteUserInput(req.query)
 
-    for(let i = 0; i < data.length;  i++) {
-        if(i.name == name) {
-            data[i] = null;
-        }
+    if (error) {
+        res.status(400)
+        return res.send(error)
     }
 
-    res.send("success");
+    const { name } = req.query
 
+    const existingUser = await fakeUsers.findByName(name)
+
+    if(!existingUser) {
+        res.status(404)
+        return res.send('user not found')
+    }
+
+    await fakeUsers.deleteById(existingUser.id)
+
+    res.send("user deleted successfully");
 };

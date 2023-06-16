@@ -27,6 +27,10 @@ class FakeUsers {
         this.data.push(newUser)
         return newUser
     }
+
+    async deleteById(id) {
+        this.data = this.data.filter(u => u.id !== id)
+    }
 }
 
 export const fakeUsers = new FakeUsers()
