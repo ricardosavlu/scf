@@ -1,7 +1,7 @@
 export const Role = {
     Admin: 'admin',
     Member: 'member'
- }
+}
 
 class FakeUsers {
     data = [
@@ -14,26 +14,29 @@ class FakeUsers {
         }
     ]
 
-    async findAll() {
-        this.data.forEach(u => u.readCount++)
+    async findAll({ increaseReadCount = false } = {}) {
+        if (increaseReadCount) this.data.forEach(u => u.readCount++)
         return this.data.map(toPublic)
     }
 
-    async findById(id) {
+    async findById(id, { increaseReadCount = false } = {}) {
         const user = this.data.find(u => u.id === id)
         if (!user) return null
-        user.readCount++
+        if (increaseReadCount) user.readCount++
         return toPublic(user)
     }
 
-    async findByName(name) {
-        return toPublic(this.data.find(u => u.name === name))
+    async findByName(name, { increaseReadCount = false } = {}) {
+        const user = this.data.find(u => u.name === name)
+        if (!user) return null
+        if (increaseReadCount) user.readCount++
+        return toPublic(user)
     }
 
     async createUser(user) {
         const highestId = this.data.reduce((highest, user) => highest < user.id ? user.id : highest, 0)
         const newId = highestId + 1
-        const newUser = { ...user, id: newId }
+        const newUser = { ...user, id: newId, readCount: 0 }
         this.data.push(newUser)
         return toPublic(newUser)
     }
