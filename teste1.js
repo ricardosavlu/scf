@@ -1,24 +1,14 @@
-var data =  require("./fakeData");
+import { fakeUsers } from "./fakeData.js";
 
-const getUser = ( req, res, next ) => {
+export const getUser = async (req, res, next) => {
+    const { name } = req.query;
+    const user = await fakeUsers.findByName(name)
     
-    var name =  req.query.name;
-
-    for(let i = 0; i < data.length;  i++) {
-        if(i.name == name) {
-            res.send(data[i]);
-        }
-    }
-
+    if(user) res.send(user)
+    else res.sendStatus(404)
 };
 
-const getUsers = ( req, res, next ) => {
-    
-    res.send(data);
-    
-};
-
-module.exports = {
-    getUser,
-    getUsers
+export const getUsers = async (req, res, next) => {
+    const users = await fakeUsers.findAll()
+    res.send(users);
 };
